@@ -21,90 +21,79 @@ if ($request_uri === '/logout') {
     exit;
 }
 
-// Middleware de autenticação
+// Middleware de autenticação e Roteamento principal
 if (!isset($_SESSION['user_id'])) {
     header('Location: /login');
     exit;
-}
-
-// Rotas do SuperAdmin
-if ($_SESSION['user_type'] === 'superadmin') {
-    switch ($request_uri) {
-        case '/superadmin/dashboard':
-            $superAdminController->dashboard();
-            break;
-        case '/superadmin/users/create':
-            $superAdminController->createUser();
-            break;
-        case '/superadmin/users/delete':
-            $superAdminController->deleteUser();
-            break;
-        case '/superadmin/users/toggle-block':
-            $superAdminController->toggleBlockUser();
-            break;
-        case '/superadmin/users/reset-password':
-            $superAdminController->resetPassword();
-            break;
-        default:
-            // not found
-            break;
+} else {
+    // Rota de Usuário
+    require_once '../app/controllers/UserController.php';
+    $userController = new UserController();
+    if ($request_uri === '/user/theme') {
+        $userController->updateTheme();
     }
-}
 
-// Rotas de Compartilhamento
-require_once '../app/controllers/ShareController.php';
-$shareController = new ShareController();
-
-if ($request_uri === '/share/create') {
-    $shareController->createLink();
-}
-
-if (strpos($request_uri, '/share') === 0 && isset($_GET['token'])) {
-    $shareController->accessLink();
-}
-
-// Rota de Usuário
-require_once '../app/controllers/UserController.php';
-$userController = new UserController();
-
-if ($request_uri === '/user/theme') {
-    $userController->updateTheme();
-}
-
-// Rotas do Gerente
-if ($_SESSION['user_type'] === 'gerente') {
-    require_once '../app/controllers/GerenteController.php';
-    $gerenteController = new GerenteController();
-
-    switch ($request_uri) {
-        case '/gerente/dashboard':
-            $gerenteController->dashboard();
-            break;
-        case '/gerente/clients/create':
-            $gerenteController->createClient();
-            break;
-        case '/gerente/clients/delete':
-            $gerenteController->deleteClient();
-            break;
-        case '/gerente/clients/toggle-block':
-            $gerenteController->toggleBlockClient();
-            break;
-        case '/gerente/clients/reset-password':
-            $gerenteController->resetClientPassword();
-            break;
-        default:
-            // not found
-            break;
+    // Rotas do SuperAdmin
+    if ($_SESSION['user_type'] === 'superadmin') {
+        switch ($request_uri) {
+            case '/superadmin/dashboard':
+                $superAdminController->dashboard();
+                break;
+            case '/superadmin/users/create':
+                $superAdminController->createUser();
+                break;
+            case '/superadmin/users/delete':
+                $superAdminController->deleteUser();
+                break;
+            case '/superadmin/users/toggle-block':
+                $superAdminController->toggleBlockUser();
+                break;
+            case '/superadmin/users/reset-password':
+                $superAdminController->resetPassword();
+                break;
+        }
     }
-}
 
-// Rotas do Cliente
-if ($_SESSION['user_type'] === 'cliente' || $_SESSION['user_type'] === 'gerente' || $_SESSION['user_type'] === 'superadmin') {
+    // Rotas do Gerente
+    if ($_SESSION['user_type'] === 'gerente') {
+        require_once '../app/controllers/GerenteController.php';
+        $gerenteController = new GerenteController();
+        switch ($request_uri) {
+            case '/gerente/dashboard':
+                $gerenteController->dashboard();
+                break;
+            case '/gerente/clients/create':
+                $gerenteController->createClient();
+                break;
+            case '/gerente/clients/delete':
+                $gerenteController->deleteClient();
+                break;
+            case '/gerente/clients/toggle-block':
+                $gerenteController->toggleBlockClient();
+                break;
+            case '/gerente/clients/reset-password':
+                $gerenteController->resetClientPassword();
+                break;
+        }
+    }
+
+    // Rotas de Arquivos (para todos os tipos de usuário logados)
     require_once '../app/controllers/FileController.php';
     $fileController = new FileController();
-
     switch ($request_uri) {
-        // ... (rotas existentes)
+        case '/cliente/files':
+            $fileController->index();
+            break;
+        case '/files/upload':
+            if ($_SESSION['user_type'] === 'superadmin' || $_SESSION['user_type'] === 'gerente') {
+                $fileController->uploadFile();
+            }
+            break;
+        case '/folders/create':
+            if ($_SESSION['user_type'] === 'superadmin' || $_SESSION['user_type'] === 'gerente') {
+                $fileController->createFolder();
+            }
+            break;
         case '/files/rename':
             if ($_SESSION['user_type'] === 'superadmin' || $_SESSION['user_type'] === 'gerente') {
                 $fileController->renameFile();
@@ -128,5 +117,15 @@ if ($_SESSION['user_type'] === 'cliente' || $_SESSION['user_type'] === 'gerente'
         case '/folders/download':
             $fileController->downloadFolder();
             break;
+    }
+
+    // Rotas de Compartilhamento (para todos os tipos de usuário logados)
+    require_once '../app/controllers/ShareController.php';
+    $shareController = new ShareController();
+    if ($request_uri === '/share/create') {
+        $shareController->createLink();
+    }
+    if (strpos($request_uri, '/share') === 0 && isset($_GET['token'])) {
+        $shareController->accessLink();
     }
 }
