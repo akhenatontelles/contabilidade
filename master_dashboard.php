@@ -143,6 +143,23 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_tipo'] !== 'master') {
         </div>
     </div>
 
+    <!-- Modal de Ações do Cliente -->
+    <div class="modal fade" id="clienteAcoesModalMaster" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="clienteNomeModalMaster"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Gerenciamento de arquivos do cliente aqui...</p>
+                    <!-- O conteúdo detalhado do file manager será adicionado via JS -->
+                    <div id="file-manager-master"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/master.js"></script>
 </body>

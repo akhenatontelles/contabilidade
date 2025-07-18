@@ -82,7 +82,7 @@ function listarClientesMaster() {
                     <td>${cliente.email}</td>
                     <td>${cliente.empresa}</td>
                     <td>
-                        <button class="btn btn-sm btn-info"><i class="fas fa-folder-open"></i></button>
+                        <button class="btn btn-sm btn-info" onclick="abrirPerfilClienteMaster(${cliente.id}, '${cliente.nome}')"><i class="fas fa-folder-open"></i></button>
                         <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
                         <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
                         <button class="btn btn-sm btn-secondary"><i class="fas fa-lock"></i></button>
@@ -90,5 +90,27 @@ function listarClientesMaster() {
                 </tr>
             `;
         });
+    });
+}
+
+let clienteIdSelecionadoMaster;
+let pastaAtualIdMaster = null;
+
+function abrirPerfilClienteMaster(clienteId, nomeCliente) {
+    clienteIdSelecionadoMaster = clienteId;
+    document.getElementById('clienteNomeModalMaster').innerText = `Gerenciando arquivos de: ${nomeCliente}`;
+    const modal = new bootstrap.Modal(document.getElementById('clienteAcoesModalMaster'));
+    modal.show();
+    listarArquivosMaster(clienteId);
+}
+
+function listarArquivosMaster(clienteId, pastaId = null) {
+    pastaAtualIdMaster = pastaId;
+    fetch(`api/listar_arquivos_gestor.php?cliente_id=${clienteId}&pasta_id=${pastaId || ''}`)
+    .then(response => response.json())
+    .then(data => {
+        const container = document.getElementById('file-manager-master');
+        // Lógica de renderização (simplificada por enquanto)
+        container.innerHTML = `<strong>Pastas:</strong> ${data.pastas.length}, <strong>Arquivos:</strong> ${data.arquivos.length}`;
     });
 }
