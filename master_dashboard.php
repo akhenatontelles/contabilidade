@@ -43,11 +43,11 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_tipo'] !== 'master') {
             <div class="tab-pane fade show active" id="gestores" role="tabpanel">
                 <div class="d-flex justify-content-between align-items-center mt-3">
                     <h2>Gerenciar Gestores</h2>
-                    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addGestorModal">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addGestorModal">
                         <i class="fas fa-plus"></i> Adicionar Gestor
                     </button>
                 </div>
-                <table class="table table-striped">
+                <table class="table table-striped mt-3">
                     <thead>
                         <tr>
                             <th>Nome</th>
@@ -64,8 +64,11 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_tipo'] !== 'master') {
             <div class="tab-pane fade" id="clientes" role="tabpanel">
                 <div class="d-flex justify-content-between align-items-center mt-3">
                     <h2>Gerenciar Clientes</h2>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addClienteModal">
+                        <i class="fas fa-plus"></i> Adicionar Cliente
+                    </button>
                 </div>
-                <table class="table table-striped">
+                <table class="table table-striped mt-3">
                     <thead>
                         <tr>
                             <th>Nome</th>
@@ -92,29 +95,46 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_tipo'] !== 'master') {
                 </div>
                 <div class="modal-body">
                     <form id="add-gestor-form">
-                        <div class="mb-3">
-                            <label for="nome" class="form-label">Nome</label>
-                            <input type="text" class="form-control" id="nome" name="nome" required>
+                        <!-- Campos do formulário de gestor -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Adicionar Cliente -->
+    <div class="modal fade" id="addClienteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Adicionar Novo Cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="add-cliente-form-master">
+                         <div class="mb-3">
+                            <label for="nome_cliente" class="form-label">Nome</label>
+                            <input type="text" class="form-control" id="nome_cliente" name="nome" required>
                         </div>
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
+                            <label for="email_cliente" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email_cliente" name="email" required>
                         </div>
                         <div class="mb-3">
-                            <label for="senha" class="form-label">Senha</label>
-                            <input type="password" class="form-control" id="senha" name="senha" required>
+                            <label for="senha_cliente" class="form-label">Senha</label>
+                            <input type="password" class="form-control" id="senha_cliente" name="senha" required>
                         </div>
                         <div class="mb-3">
-                            <label for="telefone" class="form-label">Telefone</label>
-                            <input type="text" class="form-control" id="telefone" name="telefone">
+                            <label for="telefone_cliente" class="form-label">Telefone</label>
+                            <input type="text" class="form-control" id="telefone_cliente" name="telefone">
                         </div>
                         <div class="mb-3">
-                            <label for="whatsapp" class="form-label">WhatsApp</label>
-                            <input type="text" class="form-control" id="whatsapp" name="whatsapp">
+                            <label for="whatsapp_cliente" class="form-label">WhatsApp</label>
+                            <input type="text" class="form-control" id="whatsapp_cliente" name="whatsapp">
                         </div>
                         <div class="mb-3">
-                            <label for="empresa" class="form-label">Empresa</label>
-                            <input type="text" class="form-control" id="empresa" name="empresa">
+                            <label for="empresa_cliente" class="form-label">Empresa</label>
+                            <input type="text" class="form-control" id="empresa_cliente" name="empresa">
                         </div>
                         <button type="submit" class="btn btn-primary">Salvar</button>
                     </form>

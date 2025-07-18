@@ -22,6 +22,27 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    document.getElementById('add-cliente-form-master').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+
+        fetch('api/adicionar_cliente.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                listarClientesMaster();
+                const modal = bootstrap.Modal.getInstance(document.getElementById('addClienteModal'));
+                modal.hide();
+                this.reset();
+            } else {
+                alert(data.message);
+            }
+        });
+    });
 });
 
 function listarGestores() {
