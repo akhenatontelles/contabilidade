@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
             url: "api/upload.php",
             paramName: "file",
             autoProcessQueue: true,
-            clickable: "#upload-btn",
+            clickable: false, // Vamos controlar o clique manualmente
             previewsContainer: false,
             dragover: function(event) {
                 document.getElementById('main-content-dropzone').classList.add('drag-over');
@@ -99,6 +99,11 @@ document.addEventListener('DOMContentLoaded', function() {
             error: function(file, response) {
                 alert("Erro no upload: " + response);
             }
+        });
+
+        // Manual Upload Button
+        document.getElementById('upload-btn').addEventListener('click', function() {
+            myDropzone.hiddenFileInput.click();
         });
 
         // Folder Upload with Dropzone
