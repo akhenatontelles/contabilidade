@@ -1,0 +1,124 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    background-color: #343a40;
+    color: #fff;
+    z-index: 100;
+}
+
+.sidebar a.nav-link {
+    color: #adb5bd;
+}
+
+.sidebar a.nav-link.active {
+    color: #fff;
+    font-weight: bold;
+}
+
+.sidebar a.nav-link:hover {
+    color: #fff;
+}
+
+.user-area {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    padding: 0 15px;
+}
+
+.main-content {
+    margin-left: 250px;
+    position: relative;
+}
+
+#file-manager {
+    padding: 20px;
+}
+
+#file-list tr:hover {
+    cursor: pointer;
+}
+
+.table-hover > tbody > tr:hover > * {
+  --bs-table-accent-bg: var(--bs-table-hover-bg);
+  color: var(--bs-table-hover-color);
+}
+
+
+.fa-folder { color: #FFD700; }
+.fa-file-pdf { color: #dc3545; }
+.fa-file-image { color: #28a745; }
+.fa-file-alt { color: #6c757d; }
+
+/* Dropzone style */
+.dropzone-message {
+    display: none;
+    position: absolute;
+    top: 56px; /* Altura da navbar */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    z-index: 9999;
+    text-align: center;
+    padding-top: 20%;
+    font-size: 1.5rem;
+}
+
+.main-content.drag-over .dropzone-message {
+    display: block;
+}
+
+
+/* Dark Theme */
+body.dark-theme {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+body.dark-theme .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-theme .main-content .navbar {
+    background-color: #1e1e1e !important;
+    border-bottom: 1px solid #333;
+}
+
+body.dark-theme .navbar-text, body.dark-theme .form-check-label {
+    color: #e0e0e0;
+}
+
+body.dark-theme #file-manager {
+    background-color: #121212;
+}
+
+body.dark-theme .table {
+    color: #e0e0e0;
+    --bs-table-bg: #121212;
+    --bs-table-border-color: #333;
+}
+
+body.dark-theme .table-hover > tbody > tr:hover > * {
+    --bs-table-accent-bg: #333;
+    color: #fff;
+}
+
+body.dark-theme .form-control {
+    background-color: #333;
+    color: #fff;
+    border-color: #555;
+}
+
+body.dark-theme .form-control::placeholder {
+    color: #aaa;
+}

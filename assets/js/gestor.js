@@ -36,7 +36,7 @@ function listarClientes() {
                     <td>${cliente.email}</td>
                     <td>${cliente.empresa}</td>
                     <td>
-                        <button class="btn btn-sm btn-info" onclick="abrirPerfilCliente(${cliente.id}, '${cliente.nome}')"><i class="fas fa-folder-open"></i></button>
+                        <button class="btn btn-sm btn-info" onclick="abrirPerfilCliente(${cliente.id})"><i class="fas fa-folder-open"></i></button>
                         <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
                         <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
                         <button class="btn btn-sm btn-secondary"><i class="fas fa-lock"></i></button>
@@ -47,15 +47,8 @@ function listarClientes() {
     });
 }
 
-let clienteIdSelecionado;
-let pastaAtualId = null;
-
-function abrirPerfilCliente(clienteId, nomeCliente) {
-    clienteIdSelecionado = clienteId;
-    document.getElementById('clienteNomeModal').innerText = `Gerenciando arquivos de: ${nomeCliente}`;
-    const clienteAcoesModal = new bootstrap.Modal(document.getElementById('clienteAcoesModal'));
-    clienteAcoesModal.show();
-    listarArquivosGestor(clienteId);
+function abrirPerfilCliente(clienteId) {
+    window.open(`file_manager.php?cliente_id=${clienteId}`, '_blank');
 }
 
 document.getElementById('btn-nova-pasta-modal').addEventListener('click', function() {
