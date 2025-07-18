@@ -114,6 +114,6 @@ $conexao->close();
         // Passar o ID do cliente para o JavaScript
         const CLIENTE_ID = <?php echo json_encode($cliente_id); ?>;
     </script>
-    <script src="assets/js/file_manager.js"></script>
+    <script src="assets/js/file_manager.js?v=1.1"></script>
 </body>
 </html>

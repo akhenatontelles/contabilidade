@@ -1,36 +1,5 @@
 let currentFolderId = null;
 
-// Dropzone Configuration
-Dropzone.autoDiscover = false;
-const myDropzone = new Dropzone("#main-content-dropzone", {
-    url: "api/upload.php",
-    paramName: "file",
-    autoProcessQueue: true,
-    clickable: "#upload-btn", // Use o botão de upload para abrir o seletor de arquivos
-    previewsContainer: false, // Não mostrar previews, a tabela será atualizada
-    dragover: function(event) {
-        document.getElementById('main-content-dropzone').classList.add('drag-over');
-    },
-    dragleave: function(event) {
-        document.getElementById('main-content-dropzone').classList.remove('drag-over');
-    },
-    drop: function(event) {
-        document.getElementById('main-content-dropzone').classList.remove('drag-over');
-    },
-    sending: function(file, xhr, formData) {
-        formData.append("cliente_id", CLIENT_ID);
-        formData.append("pasta_id", currentFolderId); // Enviar a pasta atual
-    },
-    success: function(file, response) {
-        console.log(response);
-        listFiles(currentFolderId); // Recarregar a lista de arquivos
-    },
-    error: function(file, response) {
-        alert("Erro no upload: " + response);
-    }
-});
-
-
 document.addEventListener('DOMContentLoaded', function() {
     listFiles();
 
@@ -100,6 +69,54 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Initialize Dropzone
+    try {
+        Dropzone.autoDiscover = false;
+        const myDropzone = new Dropzone("#main-content-dropzone", {
+            url: "api/upload.php",
+            paramName: "file",
+            autoProcessQueue: true,
+            clickable: "#upload-btn",
+            previewsContainer: false,
+            dragover: function(event) {
+                document.getElementById('main-content-dropzone').classList.add('drag-over');
+            },
+            dragleave: function(event) {
+                document.getElementById('main-content-dropzone').classList.remove('drag-over');
+            },
+            drop: function(event) {
+                document.getElementById('main-content-dropzone').classList.remove('drag-over');
+            },
+            sending: function(file, xhr, formData) {
+                formData.append("cliente_id", CLIENT_ID);
+                formData.append("pasta_id", currentFolderId);
+            },
+            success: function(file, response) {
+                console.log(response);
+                listFiles(currentFolderId);
+            },
+            error: function(file, response) {
+                alert("Erro no upload: " + response);
+            }
+        });
+
+        // Folder Upload with Dropzone
+        const folderUploadInput = document.getElementById('folder-upload-input');
+        document.getElementById('upload-folder-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            folderUploadInput.click();
+        });
+        folderUploadInput.addEventListener('change', function(e) {
+            for (const file of e.target.files) {
+                myDropzone.addFile(file);
+            }
+        });
+
+    } catch (error) {
+        console.error("Erro ao inicializar o Dropzone: ", error);
+        alert("Ocorreu um erro ao carregar a funcionalidade de upload. Por favor, recarregue a página.");
+    }
 });
 
 function listFiles(folderId = null) {
